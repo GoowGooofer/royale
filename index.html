@@ -552,6 +552,356 @@
 
         .hidden { display: none !important; }
 
+        /* Стили для кейсов */
+        .case-card {
+            background: linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.95));
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .case-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(74, 144, 226, 0.2);
+            border-color: rgba(74, 144, 226, 0.4);
+        }
+        
+        .case-card.common {
+            border-color: rgba(155, 155, 155, 0.3);
+        }
+        
+        .case-card.rare {
+            border-color: rgba(30, 144, 255, 0.4);
+        }
+        
+        .case-card.epic {
+            border-color: rgba(138, 43, 226, 0.4);
+        }
+        
+        .case-card.legendary {
+            border-color: rgba(255, 165, 0, 0.5);
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.2);
+        }
+        
+        .case-image {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .case-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+        
+        .case-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(74, 144, 226, 0.3), transparent);
+            animation: pulse-glow 2s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        .case-glow.rare {
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.4), transparent);
+        }
+        
+        .case-glow.epic {
+            background: radial-gradient(circle, rgba(255, 20, 147, 0.4), transparent);
+        }
+        
+        .case-glow.legendary {
+            background: radial-gradient(circle, rgba(255, 165, 0, 0.5), transparent);
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.4; }
+        }
+        
+        .case-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e0e0e0;
+        }
+        
+        .case-price {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #4a90e2;
+        }
+        
+        .price-amount {
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .price-currency {
+            margin-left: 5px;
+            color: #999;
+        }
+        
+        .case-open-btn {
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .case-open-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.4);
+        }
+        
+        .case-open-btn.premium {
+            background: linear-gradient(45deg, #8a2be2, #6a1b9a);
+        }
+        
+        .case-open-btn.legendary {
+            background: linear-gradient(45deg, #ffa500, #ff8c00);
+        }
+        
+        /* Модальное окно открытия кейса */
+        .case-opening-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .case-opening-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .case-opening-content {
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.98), rgba(30, 30, 30, 0.95));
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+        
+        .case-opening-modal.show .case-opening-content {
+            transform: scale(1);
+        }
+        
+        /* Анимация прокрутки */
+        .case-roll-container {
+            width: 100%;
+            height: 120px;
+            overflow: hidden;
+            position: relative;
+            margin: 20px 0;
+            border-radius: 10px;
+            background: rgba(10, 10, 10, 0.8);
+            border: 2px solid rgba(74, 144, 226, 0.3);
+        }
+        
+        .case-roll-track {
+            display: flex;
+            height: 100%;
+            transition: transform 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .case-roll-item {
+            min-width: 100px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(20, 20, 20, 0.9);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .case-roll-item.selected {
+            background: linear-gradient(145deg, rgba(74, 144, 226, 0.3), rgba(74, 144, 226, 0.1));
+            border: 2px solid #4a90e2;
+        }
+        
+        .roll-item-icon {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .roll-item-name {
+            font-size: 10px;
+            color: #ccc;
+            text-align: center;
+        }
+        
+        .case-roll-pointer {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #4a90e2;
+            z-index: 100;
+        }
+        
+        .case-result {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .result-item {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 15px;
+            background: linear-gradient(145deg, rgba(74, 144, 226, 0.2), rgba(74, 144, 226, 0.1));
+            border: 1px solid rgba(74, 144, 226, 0.4);
+            margin: 10px;
+        }
+        
+        .result-item.legendary {
+            background: linear-gradient(145deg, rgba(255, 165, 0, 0.3), rgba(255, 165, 0, 0.1));
+            border-color: rgba(255, 165, 0, 0.6);
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+        }
+        
+        .result-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        
+        .result-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .result-value {
+            font-size: 24px;
+            color: #4a90e2;
+            font-weight: bold;
+        }
+        
+        .result-rarity {
+            font-size: 14px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        /* Кнопки в модальном окне */
+        .case-mode-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .case-mode-btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .case-mode-btn.demo {
+            background: linear-gradient(45deg, #6c757d, #5a6268);
+            color: white;
+        }
+        
+        .case-mode-btn.paid {
+            background: linear-gradient(45deg, #28a745, #218838);
+            color: white;
+        }
+        
+        .case-mode-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .case-mode-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .modal-close-btn:hover {
+            color: #fff;
+        }
+        
+        /* Загрузка */
+        .case-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 150px;
+            color: #999;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(74, 144, 226, 0.1);
+            border-left: 4px solid #4a90e2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* Стили для профиля */
         .profile-header {
             display: flex;
@@ -743,7 +1093,7 @@
                     <div class="balance-amounts">
                         <span class="balance-ton">0.00 TON</span>
                         <span class="balance-separator">|</span>
-                        <span class="balance-usdt">1.00 USDT</span>
+                        <span class="balance-usdt">0.00 USDT</span>
                     </div>
                 </div>
             </div>
@@ -957,83 +1307,13 @@
                         </div>
                     </div>
 
-                    <div class="cases-grid">
-                        <div class="case-card">
-                            <div class="case-image">
-                                <div class="case-icon">🎤</div>
-                                <div class="case-glow"></div>
+                    <!-- Кейсы будут загружаться динамически -->
+                    <div class="cases-grid" id="cases-grid">
+                        <div class="case-card loading">
+                            <div class="case-loading">
+                                <div class="loading-spinner"></div>
+                                <p>Загрузка кейсов...</p>
                             </div>
-                            <h4 class="case-name">Музыкальный</h4>
-                            <div class="case-price">
-                                <span class="price-amount">4.8</span>
-                                <span class="price-currency">TON</span>
-                            </div>
-                            <button class="case-open-btn">Открыть</button>
-                        </div>
-
-                        <div class="case-card">
-                            <div class="case-image">
-                                <div class="case-icon">💎</div>
-                                <div class="case-glow premium"></div>
-                            </div>
-                            <h4 class="case-name">Алмазный</h4>
-                            <div class="case-price">
-                                <span class="price-amount">24.0</span>
-                                <span class="price-currency">TON</span>
-                            </div>
-                            <button class="case-open-btn premium">Открыть</button>
-                        </div>
-
-                        <div class="case-card">
-                            <div class="case-image">
-                                <div class="case-icon">⚔️</div>
-                                <div class="case-glow"></div>
-                            </div>
-                            <h4 class="case-name">Воинский</h4>
-                            <div class="case-price">
-                                <span class="price-amount">9.6</span>
-                                <span class="price-currency">TON</span>
-                            </div>
-                            <button class="case-open-btn">Открыть</button>
-                        </div>
-
-                        <div class="case-card">
-                            <div class="case-image">
-                                <div class="case-icon">🎆</div>
-                                <div class="case-glow rare"></div>
-                            </div>
-                            <h4 class="case-name">Праздничный</h4>
-                            <div class="case-price">
-                                <span class="price-amount">14.4</span>
-                                <span class="price-currency">TON</span>
-                            </div>
-                            <button class="case-open-btn">Открыть</button>
-                        </div>
-
-                        <div class="case-card">
-                            <div class="case-image">
-                                <div class="case-icon">🎲</div>
-                                <div class="case-glow"></div>
-                            </div>
-                            <h4 class="case-name">Лаки</h4>
-                            <div class="case-price">
-                                <span class="price-amount">2.4</span>
-                                <span class="price-currency">TON</span>
-                            </div>
-                            <button class="case-open-btn">Открыть</button>
-                        </div>
-
-                        <div class="case-card">
-                            <div class="case-image">
-                                <div class="case-icon">🚀</div>
-                                <div class="case-glow legendary"></div>
-                            </div>
-                            <h4 class="case-name">Космический</h4>
-                            <div class="case-price">
-                                <span class="price-amount">48.0</span>
-                                <span class="price-currency">TON</span>
-                            </div>
-                            <button class="case-open-btn legendary">Открыть</button>
                         </div>
                     </div>
 
@@ -1437,6 +1717,45 @@
         </button>
     </nav>
 
+    <!-- Модальное окно открытия кейса -->
+    <div class="case-opening-modal" id="case-opening-modal">
+        <div class="case-opening-content">
+            <button class="modal-close-btn" onclick="closeCaseModal()">&times;</button>
+            <h2 id="modal-case-name">Открытие кейса</h2>
+            <p id="modal-case-description">Выберите режим открытия</p>
+            
+            <!-- Кнопки режимов -->
+            <div class="case-mode-buttons" id="case-mode-buttons">
+                <button class="case-mode-btn demo" onclick="openCase(true)">
+                    🎭 Демо (бесплатно)
+                </button>
+                <button class="case-mode-btn paid" id="paid-open-btn" onclick="openCase(false)">
+                    💰 Платно <span id="case-price-display">0 TON</span>
+                </button>
+            </div>
+            
+            <!-- Контейнер для анимации -->
+            <div class="case-roll-container" id="case-roll-container" style="display: none;">
+                <div class="case-roll-pointer"></div>
+                <div class="case-roll-track" id="case-roll-track">
+                    <!-- Предметы будут добавлены динамически -->
+                </div>
+            </div>
+            
+            <!-- Результат -->
+            <div class="case-result" id="case-result" style="display: none;">
+                <div class="result-item" id="result-item">
+                    <div class="result-icon" id="result-icon">🎁</div>
+                    <div class="result-name" id="result-name">Название приза</div>
+                    <div class="result-value" id="result-value">0 TON</div>
+                    <div class="result-rarity" id="result-rarity">common</div>
+                </div>
+            </div>
+            
+            <div id="case-status"></div>
+        </div>
+    </div>
+
     <script>
         // Массив с рандомными приветствиями
         const greetings = [
@@ -1576,7 +1895,20 @@
             navBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
                     const targetPage = this.getAttribute('data-page');
+                    console.log(`🖥 Клик по навигации: ${targetPage}`);
+                    
                     setActivePage(targetPage);
+                    
+                    // Дополнительная проверка для кейсов
+                    if (targetPage === 'cases') {
+                        setTimeout(function() {
+                            const casesGrid = document.getElementById('cases-grid');
+                            if (!casesGrid || casesGrid.children.length <= 1 || casesGrid.innerHTML.includes('loading')) {
+                                console.log('🔄 Дополнительная загрузка кейсов...');
+                                loadCases();
+                            }
+                        }, 100);
+                    }
                 });
                 
                 // Добавляем hover эффекты
@@ -1635,6 +1967,265 @@
             `;
             document.head.appendChild(style);
         });
+        
+        // --------- КЕЙСЫ ---------
+        let currentCaseData = null;
+        let isOpening = false;
+        
+        // Загрузка кейсов при открытии страницы кейсов
+        function loadCases() {
+            console.log('🔄 Загрузка кейсов...');
+            
+            // Сразу показываем мок данные для стабильной работы
+            const mockCases = [
+                {id: 1, name: 'Лаки', description: 'Бюджетный кейс для новичков', price: 2.4, icon: '🎲', rarity: 'common'},
+                {id: 2, name: 'Музыкальный', description: 'Музыкальные призы и бонусы', price: 4.8, icon: '🎤', rarity: 'rare'},
+                {id: 3, name: 'Воинский', description: 'Боевые трофеи и награды', price: 9.6, icon: '⚔️', rarity: 'epic'},
+                {id: 4, name: 'Алмазный', description: 'Роскошные призы и сокровища', price: 24.0, icon: '💸', rarity: 'legendary'},
+                {id: 5, name: 'Космический', description: 'Межгалактические сокровища', price: 48.0, icon: '🚀', rarity: 'legendary'}
+            ];
+            
+            // Отображаем мок данные
+            displayCases(mockCases);
+            
+            // Если есть Telegram WebApp, пытаемся загрузить реальные данные
+            if (Telegram && Telegram.WebApp && Telegram.WebApp.initData) {
+                console.log('📱 Отправляем запрос на реальные кейсы...');
+                const data = { action: 'get_cases' };
+                Telegram.WebApp.sendData(JSON.stringify(data));
+            } else {
+                console.log('🎭 Используем мок данные (тестовый режим)');
+            }
+        }
+        
+        function displayCases(cases) {
+            console.log(`🎨 Отображаем кейсы:`, cases);
+            
+            const casesGrid = document.getElementById('cases-grid');
+            if (!casesGrid) {
+                console.error('❌ Не найден элемент cases-grid!');
+                return;
+            }
+            
+            console.log(`📋 Очищаем грид и добавляем ${cases.length} кейсов`);
+            casesGrid.innerHTML = '';
+            
+            if (!cases || cases.length === 0) {
+                casesGrid.innerHTML = '<div class="case-card loading"><div class="case-loading"><p>Нет доступных кейсов</p></div></div>';
+                return;
+            }
+            
+            cases.forEach((caseData, index) => {
+                console.log(`🎨 Создаем кейс #${index + 1}:`, caseData.name);
+                const caseCard = document.createElement('div');
+                caseCard.className = `case-card ${caseData.rarity}`;
+                
+                // Определяем класс кнопки по редкости
+                let btnClass = '';
+                if (caseData.rarity === 'legendary') {
+                    btnClass = 'legendary';
+                } else if (caseData.rarity === 'epic') {
+                    btnClass = 'premium';
+                }
+                
+                caseCard.innerHTML = `
+                    <div class="case-image">
+                        <div class="case-icon">${caseData.icon}</div>
+                        <div class="case-glow ${caseData.rarity}"></div>
+                    </div>
+                    <h4 class="case-name">${caseData.name}</h4>
+                    <div class="case-price">
+                        <span class="price-amount">${caseData.price}</span>
+                        <span class="price-currency">TON</span>
+                    </div>
+                    <button class="case-open-btn ${btnClass}" onclick="showCaseModal(${JSON.stringify(caseData).replace(/"/g, '&quot;')})">\u041e\u0442\u043a\u0440\u044b\u0442\u044c</button>
+                `;
+                
+                casesGrid.appendChild(caseCard);
+            });
+            
+            console.log(`✅ Кейсы успешно отображены! Всего: ${casesGrid.children.length}`);
+        }
+        
+        function showCaseModal(caseData) {
+            if (isOpening) return;
+            
+            currentCaseData = caseData;
+            
+            // Обновляем информацию о кейсе
+            document.getElementById('modal-case-name').textContent = caseData.name;
+            document.getElementById('modal-case-description').textContent = caseData.description;
+            document.getElementById('case-price-display').textContent = `${caseData.price} TON`;
+            
+            // Показываем модальное окно
+            const modal = document.getElementById('case-opening-modal');
+            modal.classList.add('show');
+            
+            // Скрываем результат и анимацию
+            document.getElementById('case-roll-container').style.display = 'none';
+            document.getElementById('case-result').style.display = 'none';
+            document.getElementById('case-mode-buttons').style.display = 'flex';
+            document.getElementById('case-status').innerHTML = '';
+        }
+        
+        function closeCaseModal() {
+            if (isOpening) return;
+            
+            const modal = document.getElementById('case-opening-modal');
+            modal.classList.remove('show');
+            currentCaseData = null;
+        }
+        
+        async function openCase(isDemo) {
+            if (!currentCaseData || isOpening) return;
+            
+            isOpening = true;
+            
+            // Скрываем кнопки режимов
+            document.getElementById('case-mode-buttons').style.display = 'none';
+            document.getElementById('case-status').innerHTML = '🎰 Открываем кейс...';
+            
+            // Показываем анимацию прокрутки
+            await showRollAnimation();
+            
+            // Отправляем запрос на сервер
+            const requestData = {
+                action: 'open_case',
+                case_id: currentCaseData.id,
+                is_demo: isDemo
+            };
+            
+            if (Telegram && Telegram.WebApp && Telegram.WebApp.initData) {
+                Telegram.WebApp.sendData(JSON.stringify(requestData));
+            } else {
+                // Мок для тестирования
+                const mockResult = await mockOpenCase(currentCaseData.id, isDemo);
+                showResult(mockResult, isDemo);
+            }
+        }
+        
+        async function showRollAnimation() {
+            const container = document.getElementById('case-roll-container');
+            const track = document.getElementById('case-roll-track');
+            
+            container.style.display = 'block';
+            track.innerHTML = '';
+            
+            // Создаем мок предметы для анимации
+            const mockItems = [
+                {icon: '💰', name: '5 TON', rarity: 'common'},
+                {icon: '🪙', name: 'Монета', rarity: 'common'},
+                {icon: '🌟', name: 'Приз', rarity: 'rare'},
+                {icon: '💰', name: '15 TON', rarity: 'rare'},
+                {icon: '🎉', name: 'Бонус', rarity: 'epic'},
+                {icon: '💸', name: '50 TON', rarity: 'epic'},
+                {icon: '🎆', name: 'ДЖЕКПОТ', rarity: 'legendary'},
+                {icon: '💰', name: '200 TON', rarity: 'legendary'}
+            ];
+            
+            // Создаем множественные повторы предметов
+            for (let i = 0; i < 50; i++) {
+                const item = mockItems[i % mockItems.length];
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'case-roll-item';
+                itemDiv.innerHTML = `
+                    <div class="roll-item-icon">${item.icon}</div>
+                    <div class="roll-item-name">${item.name}</div>
+                `;
+                track.appendChild(itemDiv);
+            }
+            
+            // Запускаем анимацию прокрутки
+            const finalPosition = -2000 - Math.random() * 500; // Случайная позиция
+            track.style.transform = `translateX(${finalPosition}px)`;
+            
+            // Ждем завершения анимации
+            await new Promise(resolve => setTimeout(resolve, 3000));
+        }
+        
+        async function mockOpenCase(caseId, isDemo) {
+            // Мок для тестирования в браузере
+            const mockResults = [
+                {icon: '💰', name: '5 TON', value: 5.0, rarity: 'common'},
+                {icon: '🪙', name: 'Бронзовая монета', value: 3.0, rarity: 'common'},
+                {icon: '💰', name: '15 TON', value: 15.0, rarity: 'rare'},
+                {icon: '🎉', name: 'Средний приз', value: 10.0, rarity: 'rare'},
+                {icon: '💸', name: '50 TON', value: 50.0, rarity: 'epic'},
+                {icon: '🎆', name: 'ДЖЕКПОТ', value: 300.0, rarity: 'legendary'}
+            ];
+            
+            return mockResults[Math.floor(Math.random() * mockResults.length)];
+        }
+        
+        function showResult(result, isDemo) {
+            // Показываем результат
+            document.getElementById('result-icon').textContent = result.icon;
+            document.getElementById('result-name').textContent = result.name;
+            document.getElementById('result-value').textContent = `${result.value} TON`;
+            document.getElementById('result-rarity').textContent = result.rarity.toUpperCase();
+            
+            const resultItem = document.getElementById('result-item');
+            resultItem.className = `result-item ${result.rarity}`;
+            
+            const resultContainer = document.getElementById('case-result');
+            resultContainer.style.display = 'block';
+            
+            const modeText = isDemo ? '🎭 Демо-режим' : '💰 Платный режим';
+            const statusText = isDemo ? 
+                `${modeText} - приз не начисляется` : 
+                `${modeText} - приз начислен!`;
+                
+            document.getElementById('case-status').innerHTML = statusText;
+            
+            isOpening = false;
+            
+            // Автозакрытие через 5 секунд
+            setTimeout(() => {
+                closeCaseModal();
+            }, 5000);
+        }
+        
+        // Загружаем кейсы при инициализации страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 DOM загружен, инициализация...');
+            
+            // Проверяем, открыта ли страница кейсов по умолчанию
+            const casesPage = document.getElementById('cases-page');
+            if (casesPage && !casesPage.classList.contains('hidden')) {
+                console.log('🎰 Страница кейсов открыта, загружаем...');
+                loadCases();
+            }
+            
+            // Принудительно загружаем кейсы через некоторое время (на всякий случай)
+            setTimeout(function() {
+                const casesGrid = document.getElementById('cases-grid');
+                if (casesGrid && (casesGrid.innerHTML.includes('loading') || casesGrid.children.length <= 1)) {
+                    console.log('⚠️ Кейсы не загрузились, принудительная загрузка...');
+                    loadCases();
+                }
+            }, 1000);
+        });
+        
+        // Обработчик навигации - загружаем кейсы при переходе
+        const originalSetActivePage = window.setActivePage || setActivePage;
+        window.setActivePage = function(targetPage) {
+            if (originalSetActivePage) {
+                originalSetActivePage(targetPage);
+            }
+            
+            console.log(`🗺 Переход на страницу: ${targetPage}`);
+            
+            if (targetPage === 'cases') {
+                console.log('🎰 Загрузка кейсов при переходе...');
+                // Минимальная задержка для смены страницы
+                setTimeout(loadCases, 50);
+            }
+        };
+        
+        // Заменяем setActivePage если он еще не определен
+        if (typeof setActivePage !== 'undefined') {
+            setActivePage = window.setActivePage;
+        }
 
         // Функция для Crash игры (сохраняем совместимость)
         function openCrashGame() {
